@@ -12,6 +12,6 @@ main :: proc() {
 		fmt.panicf("Could not read entire file from %s: %v\n", path, err)
 	}
 
-	c := day2.parse_and_count_safe_reports(cast(string)s)
+	c := day2.parse_and_count_safe_reports_2(cast(string)s)
 	fmt.printfln("Safe reports: %v", c)
 }
