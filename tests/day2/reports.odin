@@ -5,37 +5,34 @@ import "src:day2"
 
 @(test)
 safe_report :: proc(t: ^testing.T) {
-	r := []int{1, 2}
-	s := day2.is_safe(r)
+	tt := [][]int{{}, {1}, {1, 2}}
 
-	testing.expectf(t, s, "Expected %v to be safe", r)
+	for test in tt {
+		s := day2.is_safe(test)
+
+		testing.expectf(t, s, "Expected %v to be safe", test)
+	}
 }
 
 @(test)
 unsafe_report :: proc(t: ^testing.T) {
-	tt := [][]int{{1, 1}, {1, 2, 2}, {1, 5}, {5, 1}, {1, 2, 1}, {2, 1, 2}}
+	tt := [][]int {
+		// Minimum unsafe level
+		{1, 1},
+		{1, 2, 2},
+		// Maximum unsafe level
+		{1, 5},
+		{5, 1},
+		// Direction change
+		{1, 2, 1},
+		{2, 1, 2},
+	}
 
 	for test in tt {
 		s := day2.is_safe(test)
 
 		testing.expectf(t, !s, "Expected %v to be unsafe", test)
 	}
-}
-
-@(test)
-single_number_is_a_safe_report :: proc(t: ^testing.T) {
-	r := []int{1}
-	s := day2.is_safe(r)
-
-	testing.expectf(t, s, "Expected %v to be safe", r)
-}
-
-@(test)
-zero_numbers_is_a_safe_report :: proc(t: ^testing.T) {
-	r := []int{}
-	s := day2.is_safe(r)
-
-	testing.expectf(t, s, "Expected %v to be safe", r)
 }
 
 @(test)

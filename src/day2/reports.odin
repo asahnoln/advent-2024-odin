@@ -5,6 +5,7 @@ import "core:log"
 import "core:strconv"
 import "core:strings"
 
+MIN_LEVEL_DIFF :: 1
 MAX_LEVEL_DIFF :: 3
 
 parse_and_count_safe_reports :: proc(s: string) -> uint {
@@ -69,7 +70,7 @@ is_safe :: proc(r: []int) -> bool {
 
 diff_is_in_limits :: proc(a, b: int) -> bool {
 	diff := abs(a - b)
-	return diff >= 1 && diff <= MAX_LEVEL_DIFF
+	return diff >= MIN_LEVEL_DIFF && diff <= MAX_LEVEL_DIFF
 }
 
 direction_changes :: proc(a, b, c: int) -> bool {
