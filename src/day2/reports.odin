@@ -11,13 +11,13 @@ parse_and_count_safe_reports :: proc(s: string, check_func := is_safe) -> uint {
 	defer delete(ls)
 
 	sum: uint = 0
-	for l, i in ls {
-		l := strings.trim_space(l)
-		if l == "" {
+	for l in ls {
+		lt := strings.trim_space(l)
+		if lt == "" {
 			continue
 		}
 
-		r := parse_line(l)
+		r := parse_line(lt)
 		defer delete(r)
 
 		sum += cast(uint)check_func(r)

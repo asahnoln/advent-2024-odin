@@ -10,4 +10,4 @@ run:
 
 .PHONY: test
 test:
-	odin test tests/ -all-packages -collection:src=src
+	odin test tests/ -all-packages -collection:src=src -vet

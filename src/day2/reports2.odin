@@ -1,7 +1,5 @@
 package day2
 
-import "core:strings"
-
 parse_and_count_safe_reports_2 :: proc(s: string) -> uint {
 	return parse_and_count_safe_reports(s, is_safe_2)
 }
@@ -48,8 +46,8 @@ remove_level_from_report :: proc(r: []int, i: int) -> []int {
 }
 
 is_safe_with_removed_level :: proc(r: []int, i: int) -> bool {
-	r := remove_level_from_report(r, i)
-	defer delete(r)
+	rl := remove_level_from_report(r, i)
+	defer delete(rl)
 
-	return is_safe(r)
+	return is_safe(rl)
 }

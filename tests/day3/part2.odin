@@ -1,6 +1,5 @@
 package day3_test
 
-import "core:os"
 import "core:testing"
 import "src:day3"
 

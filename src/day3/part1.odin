@@ -1,6 +1,5 @@
 package day3
 
-import "core:log"
 import "core:strconv"
 import "core:strings"
 import "core:unicode"
@@ -38,6 +37,7 @@ parse_arg :: proc(v: string, pos: int) -> (res: int, err: Error) {
 	return x, nil
 }
 
+// Parse string as usual
 parse :: proc(s: string) -> (r: int, err: Error) {
 	return parse_base(s, proc(_: string, _: ^int) -> bool {return true})
 }

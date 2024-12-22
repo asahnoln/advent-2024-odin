@@ -1,6 +1,5 @@
 package day3
 
-import "core:log"
 import "core:strings"
 
 // Parse with dos and donts
