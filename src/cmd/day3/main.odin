@@ -11,7 +11,7 @@ main :: proc() {
 		fmt.panicf("Could not read entire file from %s: %v\n", path, err)
 	}
 
-	sum, err2 := day3.parse(cast(string)s)
+	sum, err2 := day3.parse2(cast(string)s)
 	if err2 != nil {
 		fmt.panicf("Error parsing contents: %v\n", err)
 	}

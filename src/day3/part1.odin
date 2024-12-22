@@ -39,6 +39,16 @@ parse_arg :: proc(v: string, pos: int) -> (res: int, err: Error) {
 }
 
 parse :: proc(s: string) -> (r: int, err: Error) {
+	return parse_base(s, proc(_: string, _: ^int) -> bool {return true})
+}
+
+parse_base :: proc(
+	s: string,
+	apply_validation: proc(sub: string, mul_index: ^int) -> bool,
+) -> (
+	r: int,
+	err: Error,
+) {
 	i := -1
 	sub := s
 
@@ -48,6 +58,8 @@ parse :: proc(s: string) -> (r: int, err: Error) {
 		if i == -1 {
 			break
 		}
+
+		apply_validation(sub, &i) or_continue
 
 		x_index := i + 4
 		xl := find_num_length(sub[x_index:], ',') or_continue
