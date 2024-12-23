@@ -7,7 +7,7 @@ XMAS :: [?]string{"XMAS", "SAMX"}
 parse :: proc(src: string) -> int {
 	r := 0
 
-	ls := strings.split_lines(src)
+	ls := strings.split_lines(strings.trim_space(src))
 	defer delete(ls)
 
 	for l, i in ls {

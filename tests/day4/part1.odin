@@ -53,6 +53,11 @@ SA
 X
 M
 A`[1:], 0},
+		{`
+X
+M
+A
+`[1:], 0},
 
 		// Diagonal
 		{`
@@ -101,6 +106,7 @@ M..
 	}
 }
 
+@(test)
 xmas_example :: proc(t: ^testing.T) {
 	r := day4.parse(
 		`
