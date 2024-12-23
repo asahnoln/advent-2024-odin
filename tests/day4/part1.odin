@@ -3,21 +3,6 @@ package day4_test
 import "core:testing"
 import "src:day4"
 
-// 
-// MMMSXXMASM
-// MSAMXMSMSA
-// AMXSXMAAMM
-// MSAMASMSMX
-// XMASAMXAMM
-// XXAMMXXAMA
-// SMSMSASXSS
-// SAXAMASAAA
-// MAMMMXMMMM
-// MXMXAXMASX
-//
-// 18 times!
-//
-
 @(test)
 xmas :: proc(t: ^testing.T) {
 	tt := []struct {
@@ -116,7 +101,6 @@ M..
 	}
 }
 
-// @(test)
 xmas_example :: proc(t: ^testing.T) {
 	r := day4.parse(
 		`
@@ -129,8 +113,7 @@ XXAMMXXAMA
 SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
-MXMXAXMASX
-`[1:],
+MXMXAXMASX`[1:],
 	)
 	testing.expect_value(t, r, 18)
 }
