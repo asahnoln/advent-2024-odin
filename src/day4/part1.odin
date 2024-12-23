@@ -47,7 +47,7 @@ parse :: proc(src: string) -> int {
 				}
 
 				// Diagonal /
-				if 0 <= j - 3 { 	// FIXME: Test case for columns count in a line
+				if 0 <= j - 3 {
 					if ls[i][j] == 'X' &&
 					   ls[i + 1][j - 1] == 'M' &&
 					   ls[i + 2][j - 2] == 'A' &&
