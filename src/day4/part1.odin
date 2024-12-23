@@ -3,6 +3,7 @@ package day4
 import "core:strings"
 
 XMAS :: [?]string{"XMAS", "SAMX"}
+XMAS_LENGTH :: 4
 
 parse :: proc(src: string) -> int {
 	r := 0
@@ -13,20 +14,20 @@ parse :: proc(src: string) -> int {
 	for l, i in ls {
 		for _, j in l {
 			for xmas in XMAS {
-				if len(l) >= j + 4 {
+				if len(l) >= j + XMAS_LENGTH {
 					r += horizontal_count(xmas, l, j)
 				}
 
-				if len(ls) >= i + 4 {
+				if len(ls) >= i + XMAS_LENGTH {
 					r += vertical_count(xmas, ls, i, j)
 
 					// Diagonal \
-					if len(l) >= j + 4 {
+					if len(l) >= j + XMAS_LENGTH {
 						r += vertical_count(xmas, ls, i, j, 1)
 					}
 
 					// Diagonal /
-					if 0 <= j - 3 {
+					if 0 <= j - (XMAS_LENGTH - 1) {
 						r += vertical_count(xmas, ls, i, j, -1)
 					}
 				}
