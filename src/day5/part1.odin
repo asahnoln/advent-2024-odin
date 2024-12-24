@@ -1,8 +1,13 @@
 package day5
 
 import "core:slice"
+import "core:strconv"
+import "core:strings"
 
-check_order :: proc(rules: [][2]int, pages: []int) -> bool {
+Rules :: [][2]int
+Pages :: []int
+
+check_order :: proc(rules: Rules, pages: Pages) -> bool {
 	if len(rules) == 0 {
 		return true
 	}
@@ -27,4 +32,41 @@ check_order :: proc(rules: [][2]int, pages: []int) -> bool {
 	}
 
 	return true
+}
+
+parse_rules :: proc(src: string) -> Rules {
+	ls := strings.split_lines(strings.trim_space(src))
+	defer delete(ls)
+
+	r := make(Rules, len(ls))
+	for l, i in ls {
+		ab := strings.split(l, "|")
+		defer delete(ab)
+
+		a, b := ab[0], ab[1]
+		r[i] = {strconv.atoi(a), strconv.atoi(b)}
+	}
+
+	return r
+}
+
+
+parse_pages :: proc(src: string) -> []Pages {
+	ls := strings.split_lines(strings.trim_space(src))
+	defer delete(ls)
+
+	r := make([]Pages, len(ls))
+	for l, i in ls {
+		ps := strings.split(l, ",")
+		defer delete(ps)
+
+		r[i] = make(Pages, len(ps))
+
+		for p, j in ps {
+			r[i][j] = strconv.atoi(p)
+
+		}
+	}
+
+	return r
 }

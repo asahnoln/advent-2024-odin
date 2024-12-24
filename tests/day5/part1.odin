@@ -1,12 +1,13 @@
 package day5_test
 
+import "core:slice"
 import "core:testing"
 import "src:day5"
 
 @(test)
 check_order :: proc(t: ^testing.T) {
 	tt := []struct {
-		rules: [][2]int,
+		rules: day5.Rules,
 		pages: []int,
 		want:  bool,
 	} {
@@ -34,6 +35,86 @@ check_order :: proc(t: ^testing.T) {
 		)
 	}
 }
+
+@(test)
+parse_rules :: proc(t: ^testing.T) {
+	tests := []struct {
+		src:  string,
+		want: day5.Rules,
+	} {
+		// Format
+		{"1|2", {{1, 2}}},
+		{"2|3\n4|3", {{2, 3}, {4, 3}}},
+		{"1|2\n", {{1, 2}}},
+	}
+
+	for tt in tests {
+		got := day5.parse_rules(tt.src)
+		defer delete(got)
+
+		testing.expectf(
+			t,
+			slice.equal(got, tt.want),
+			"For `%s` want %v, got %v",
+			tt.src,
+			tt.want,
+			got,
+		)
+	}
+}
+
+@(test)
+parse_pages :: proc(t: ^testing.T) {
+	tests := []struct {
+		src:  string,
+		want: []day5.Pages,
+	} {
+		// Format
+		{"1,2", {{1, 2}}},
+		{"1,2,3", {{1, 2, 3}}},
+		{"4,5\n6,7,8", {{4, 5}, {6, 7, 8}}},
+		{"1,2\n", {{1, 2}}},
+	}
+
+	for tt in tests {
+		got := day5.parse_pages(tt.src)
+		defer delete(got)
+		defer delete(got[0])
+
+		testing.expectf(
+			t,
+			slice.equal(got[0], tt.want[0]),
+			"For `%s` want %v, got %v",
+			tt.src,
+			tt.want,
+			got,
+		)
+
+		// Can't compare [][]int, thus a hack
+		if len(tt.want) > 1 {
+			defer delete(got[1])
+			testing.expect(t, slice.equal(got[1], tt.want[1]))
+		}
+	}
+}
+
+// @(test)
+// err_parse_rules :: proc(t: ^testing.T) {
+// 	tests := []struct {
+// 		src:  string,
+// 		want: day5.Error,
+// 	} {
+// 		// Format
+// 		{"2|x", day5.Parse_Rule_Error{"x", 1}},
+// 	}
+//
+// 	for tt in tests {
+// 		rs, err := day5.parse_rules(tt.src)
+// 		defer delete(rs)
+//
+// 		testing.expectf(t, rs == tt.want, "For `%s` want err %v, got %v", tt.src, tt.want, err)
+// 	}
+// }
 
 // @(test)
 // parse_from_example :: proc(t: ^testing.T) {
