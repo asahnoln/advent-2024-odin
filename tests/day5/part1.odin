@@ -5,15 +5,34 @@ import "src:day5"
 
 @(test)
 check_order :: proc(t: ^testing.T) {
-	r := day5.check_order(
-	[][2]int {
-		// Format
-		{1, 2},
-	},
-	[]int{1, 2, 3},
-	)
+	tt := []struct {
+		rules: [][2]int,
+		pages: []int,
+		want:  bool,
+	} {
+		{{{1, 2}}, {}, false},
+		{{}, {1}, true},
+		{{{1, 2}}, {9}, true},
+		{{{1, 2}}, {1, 2}, true},
+		{{{1, 2}}, {2, 1}, false},
+		{{{1, 2}}, {1, 0, 2}, true},
+		{{{2, 1}}, {2, 1}, true},
+		{{{2, 0}, {1, 2}}, {1, 0, 2}, false}, // proper shoud be 1, 2, 0
+		{{{1, 2}}, {3, 1}, true},
+	}
 
-	testing.expect(t, r)
+	for test in tt {
+		got := day5.check_order(test.rules, test.pages)
+		testing.expectf(
+			t,
+			got == test.want,
+			"For rules `%v` and pages `%v` want %v, got %v",
+			test.rules,
+			test.pages,
+			test.want,
+			got,
+		)
+	}
 }
 
 // @(test)
