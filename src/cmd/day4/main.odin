@@ -11,6 +11,6 @@ main :: proc() {
 		fmt.panicf("Could not read entire file from %s: %v\n", path, err)
 	}
 
-	c := day4.parse(cast(string)s)
+	c := day4.parse_xmas(cast(string)s)
 	fmt.printfln("Sum: %v", c)
 }

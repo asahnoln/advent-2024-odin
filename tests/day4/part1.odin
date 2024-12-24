@@ -94,7 +94,7 @@ M..
 
 	for test in tt {
 		// log.infof("Test for `%s`", test.src)
-		r := day4.parse(test.src)
+		r := day4.parse_xmas(test.src)
 		testing.expectf(
 			t,
 			r == test.want,
@@ -108,7 +108,7 @@ M..
 
 @(test)
 xmas_example :: proc(t: ^testing.T) {
-	r := day4.parse(
+	r := day4.parse_xmas(
 		`
 MMMSXXMASM
 MSAMXMSMSA

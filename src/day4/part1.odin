@@ -5,7 +5,7 @@ import "core:strings"
 XMAS :: [?]string{"XMAS", "SAMX"}
 XMAS_LENGTH :: 4
 
-parse :: proc(src: string) -> int {
+parse_xmas :: proc(src: string) -> int {
 	r := 0
 
 	ls := strings.split_lines(strings.trim_space(src))
@@ -18,18 +18,20 @@ parse :: proc(src: string) -> int {
 					r += horizontal_count(xmas, l, j)
 				}
 
-				if len(ls) >= i + XMAS_LENGTH {
-					r += vertical_count(xmas, ls, i, j)
+				if len(ls) < i + XMAS_LENGTH {
+					continue
+				}
 
-					// Diagonal \
-					if len(l) >= j + XMAS_LENGTH {
-						r += vertical_count(xmas, ls, i, j, 1)
-					}
+				r += vertical_count_4(xmas, ls, i, j)
 
-					// Diagonal /
-					if 0 <= j - (XMAS_LENGTH - 1) {
-						r += vertical_count(xmas, ls, i, j, -1)
-					}
+				// Diagonal \
+				if len(l) >= j + XMAS_LENGTH {
+					r += vertical_count_4(xmas, ls, i, j, 1)
+				}
+
+				// Diagonal /
+				if 0 <= j - (XMAS_LENGTH - 1) {
+					r += vertical_count_4(xmas, ls, i, j, -1)
 				}
 			}
 		}
@@ -42,11 +44,6 @@ horizontal_count :: proc(what: string, l: string, j: int) -> int {
 	return cast(int)(l[j:][:4] == what)
 }
 
-vertical_count :: proc(what: string, ls: []string, i, j: int, step := 0) -> int {
-	return(
-		cast(int)(ls[i][j] == what[0] &&
-			ls[i + 1][j + step] == what[1] &&
-			ls[i + 2][j + 2 * step] == what[2] &&
-			ls[i + 3][j + 3 * step] == what[3]) \
-	)
+vertical_count_4 :: proc(what: string, ls: []string, i, j: int, step := 0) -> int {
+	return cast(int)(vertical_check_3(what, ls, i, j, step) && ls[i + 3][j + 3 * step] == what[3])
 }
