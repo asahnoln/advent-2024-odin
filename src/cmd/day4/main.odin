@@ -1,16 +1,15 @@
-package main
+package day4_run
 
 import "core:fmt"
 import "core:os"
 import "src:day4"
 
-main :: proc() {
-	path := os.args[1]
-	s, err := os.read_entire_file_or_err(path)
-	if err != nil {
-		fmt.panicf("Could not read entire file from %s: %v\n", path, err)
-	}
+run1 :: proc(s: string) {
+	c := day4.parse_xmas(s)
+	fmt.printfln("Sum: %v", c)
+}
 
-	c := day4.parse_xmas(cast(string)s)
+run :: proc(s: string) {
+	c := day4.parse_x_mas(s)
 	fmt.printfln("Sum: %v", c)
 }
