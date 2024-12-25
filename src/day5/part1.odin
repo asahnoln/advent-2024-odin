@@ -8,6 +8,16 @@ Rules :: [][2]int
 Pages :: []int
 
 parse_and_sum :: proc(src: string) -> int {
+	return parse_and_sum_base(src, proc(rs: Rules, ps: Pages) -> (n: int) {
+		if check_order(rs, ps) {
+			n = ps[len(ps) / 2]
+		}
+
+		return
+	})
+}
+
+parse_and_sum_base :: proc(src: string, p: proc(_: Rules, _: Pages) -> int) -> int {
 	sep := strings.index(src, "\n\n")
 	rs := parse_rules(src[:sep])
 	defer delete(rs)
@@ -18,9 +28,7 @@ parse_and_sum :: proc(src: string) -> int {
 	sum := 0
 	for ps in pss {
 		defer delete(ps)
-		if check_order(rs, ps) {
-			sum += ps[len(ps) / 2]
-		}
+		sum += p(rs, ps)
 	}
 
 	return sum
