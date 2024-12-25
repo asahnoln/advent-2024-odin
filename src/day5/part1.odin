@@ -7,6 +7,25 @@ import "core:strings"
 Rules :: [][2]int
 Pages :: []int
 
+parse_and_sum :: proc(src: string) -> int {
+	sep := strings.index(src, "\n\n")
+	rs := parse_rules(src[:sep])
+	defer delete(rs)
+
+	pss := parse_pages(src[sep:])
+	defer delete(pss)
+
+	sum := 0
+	for ps in pss {
+		defer delete(ps)
+		if check_order(rs, ps) {
+			sum += ps[len(ps) / 2]
+		}
+	}
+
+	return sum
+}
+
 check_order :: proc(rules: Rules, pages: Pages) -> bool {
 	if len(rules) == 0 {
 		return true

@@ -79,7 +79,6 @@ parse_pages :: proc(t: ^testing.T) {
 	for tt in tests {
 		got := day5.parse_pages(tt.src)
 		defer delete(got)
-		defer delete(got[0])
 
 		testing.expectf(
 			t,
@@ -91,11 +90,28 @@ parse_pages :: proc(t: ^testing.T) {
 		)
 
 		// Can't compare [][]int, thus a hack
-		if len(tt.want) > 1 {
-			defer delete(got[1])
-			testing.expect(t, slice.equal(got[1], tt.want[1]))
+		for _, i in tt.want {
+			defer delete(got[i])
+			testing.expect(t, slice.equal(got[i], tt.want[i]))
 		}
 	}
+}
+
+@(test)
+parse_and_sum :: proc(t: ^testing.T) {
+	got := day5.parse_and_sum(`
+2|1
+4|3
+9|2
+
+9,2,1
+4,3,9
+2,1,3
+1,2,9
+3,4,1
+`[1:])
+
+	testing.expect_value(t, got, 6)
 }
 
 // @(test)
