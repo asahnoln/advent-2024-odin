@@ -3,7 +3,7 @@ package main
 import "core:fmt"
 import "core:os"
 
-import "day4"
+import "day5"
 
 run :: proc(p: proc(s: string), s: string) {
 	p(s)
@@ -16,5 +16,5 @@ main :: proc() {
 		fmt.panicf("Could not read entire file from %s: %v\n", path, err)
 	}
 
-	run(day4.run, cast(string)s)
+	run(day5.run, cast(string)s)
 }

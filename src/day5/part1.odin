@@ -27,24 +27,18 @@ parse_and_sum :: proc(src: string) -> int {
 }
 
 check_order :: proc(rules: Rules, pages: Pages) -> bool {
-	if len(rules) == 0 {
+	switch {
+	case len(rules) == 0:
+		fallthrough
+	case len(pages) == 1:
 		return true
-	}
-
-	if len(pages) == 0 {
+	case len(pages) == 0:
 		return false
 	}
 
-	if len(pages) == 1 {
-		return true
-	}
-
 	for r in rules {
-		x := r[0]
-		y := r[1]
-
-		xi, _ := slice.linear_search(pages, x)
-		yi, oky := slice.linear_search(pages, y)
+		xi, _ := slice.linear_search(pages, r[0])
+		yi, oky := slice.linear_search(pages, r[1])
 		if oky && xi > yi {
 			return false
 		}
