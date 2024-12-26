@@ -20,8 +20,46 @@ import "src:day6"
 
 @(test)
 count_positions :: proc(t: ^testing.T) {
-  got := day6.count_positions(`
-^`[1:])
+	tests := []struct {
+		m:    string,
+		want: int,
+	} {
+		// Format
+		{`
+.
+v
+.
+.`[1:], 3},
+		{`
+.
+^
+.`[1:], 2},
+		{`
+.>.`[1:], 2},
+		{`
+.<.`[1:], 2},
+		{`
+.<.
+...`[1:], 2},
+		{`
+....
+....
+.^..`[1:], 3},
+		{`
+.v
+..
+..`[1:], 3},
+		{`
+...
+.<.
+...`[1:], 2},
+		{`
+.>.
+...`[1:], 2},
+	}
 
-  testing.expect_value(t, got, 1)
+	for tt in tests {
+		got := day6.count_positions(tt.m)
+		testing.expectf(t, got == tt.want, "For `%s` want %v, got %v", tt.m, tt.want, got)
+	}
 }
