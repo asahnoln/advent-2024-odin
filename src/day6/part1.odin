@@ -27,6 +27,7 @@ count_positions :: proc(m: string) -> int {
 	return 0
 }
 
+@(private)
 start_count :: proc(ls: []string, x, y: int, d: Dir, coords: ^map[[2]int]struct {}) -> (cnt: int) {
 	coords[{x, y}] = struct {}{}
 	next_x := x
@@ -59,6 +60,7 @@ dir_next := [Dir]Dir {
 	.Up    = .Right,
 }
 
+@(private)
 count_dir :: proc(
 	ls: []string,
 	x, y, c: int,
@@ -68,57 +70,16 @@ count_dir :: proc(
 	cnt: int,
 ) {
 	cnt = c
-	step := 1
-	max := 0
-	min := 0
+	min, max, minus := init_loop_vars(ls, x, y, d)
 
-	switch d {
-	case .Right:
-		min = x
-		max = len(ls[y])
-	case .Down:
-		min = y
-		max = len(ls)
-	case .Left:
-		min = x
-		max = -1
-		step = -1
-	case .Up:
-		min = y
-		max = -1
-		step = -1
-	}
+	for j := min * minus; j < max * minus; j += 1 {
+		i := j * minus
+		r := current_byte(ls, x, y, i, d)
+		cs := current_coord(d, x, y, i)
 
-	for j := min * step; j < max * step; j += 1 {
-		i := j * step
-		r: u8
-		cs: [2]int
-		next_x := x
-		next_y := y
-		switch d {
-		case .Right:
-			r = ls[y][i]
-			cs = {i, y}
-			next_x = i - 1
-			next_y = y + 1
-		case .Down:
-			r = ls[i][x]
-			cs = {x, i}
-			next_x = x - 1
-			next_y = i - 1
-		case .Left:
-			r = ls[y][i]
-			cs = {i, y}
-			next_x = i + 1
-			next_y = y - 1
-		case .Up:
-			r = ls[i][x]
-			cs = {x, i}
-			next_x = x + 1
-			next_y = i + 1
-		}
 
 		if r == '#' {
+			next_x, next_y := find_next_xy(d, x, y, i)
 			return count_dir(ls, next_x, next_y, cnt, dir_next[d], coords)
 		}
 
@@ -130,5 +91,70 @@ count_dir :: proc(
 		cnt += 1
 	}
 
+	return
+}
+
+@(private)
+init_loop_vars :: proc(ls: []string, x, y: int, d: Dir) -> (min, max, minus: int) {
+	minus = 1
+	switch d {
+	case .Right:
+		min = x
+		max = len(ls[y])
+	case .Down:
+		min = y
+		max = len(ls)
+	case .Left:
+		min = x
+		max = -1
+		minus = -1
+	case .Up:
+		min = y
+		max = -1
+		minus = -1
+	}
+
+	return min, max, minus
+}
+
+@(private)
+current_byte :: proc(ls: []string, x, y, i: int, d: Dir) -> (r: u8) {
+	switch d {
+	case .Right, .Left:
+		r = ls[y][i]
+	case .Down, .Up:
+		r = ls[i][x]
+	}
+	return
+}
+
+@(private)
+current_coord :: proc(d: Dir, x, y, i: int) -> (cs: [2]int) {
+	switch d {
+	case .Right, .Left:
+		cs = {i, y}
+	case .Down, .Up:
+		cs = {x, i}
+	}
+
+	return
+}
+
+@(private)
+find_next_xy :: proc(d: Dir, x, y, i: int) -> (next_x, next_y: int) {
+	switch d {
+	case .Right:
+		next_x = i - 1
+		next_y = y + 1
+	case .Down:
+		next_x = x - 1
+		next_y = i - 1
+	case .Left:
+		next_x = i + 1
+		next_y = y - 1
+	case .Up:
+		next_x = x + 1
+		next_y = i + 1
+	}
 	return
 }
