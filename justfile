@@ -11,5 +11,5 @@ test:
 build: test
 	odin build {{cmd}} {{collection}}
 
-run: test
-	odin run {{cmd}} {{collection}} -vet
+run input: test
+	odin run {{cmd}} {{collection}} -vet -- {{input}}
