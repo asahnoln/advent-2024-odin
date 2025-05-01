@@ -86,3 +86,21 @@ count_positions :: proc(t: ^testing.T) {
 		testing.expectf(t, got == tt.want, "For `%s` want %v, got %v", tt.m[1:], tt.want, got)
 	}
 }
+
+@(test)
+example :: proc(t: ^testing.T) {
+	got := day6.count_positions(
+		`
+....#.....
+.........#
+..........
+..#.......
+.......#..
+..........
+.#..^.....
+........#.
+#.........
+......#...`[1:],
+	)
+	testing.expect_value(t, got, 41)
+}
