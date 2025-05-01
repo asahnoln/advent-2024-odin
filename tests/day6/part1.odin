@@ -26,40 +26,45 @@ count_positions :: proc(t: ^testing.T) {
 	} {
 		// Format
 		{`
-.
-v
-.
-.`[1:], 3},
+>`, 1},
 		{`
-.
-^
-.`[1:], 2},
+>..`, 3},
 		{`
-.>.`[1:], 2},
+.>.`, 2},
 		{`
-.<.`[1:], 2},
+>#`, 1},
 		{`
-.<.
-...`[1:], 2},
+#>`, 1},
 		{`
-....
-....
-.^..`[1:], 3},
+>#
+..`, 2},
 		{`
-.v
-..
-..`[1:], 3},
+>#
+#.`, 1},
 		{`
+#>#
+.#.`, 1},
+		{`
+.#.
 ...
-.<.
-...`[1:], 2},
+#>#
+.#.`, 3},
 		{`
-.>.
-...`[1:], 2},
+.#...
+.....
+..>.#
+#....
+...#.`, 10},
+		{`
+.#...
+.....
+.>..#
+#....
+...#.`, 10},
 	}
 
 	for tt in tests {
-		got := day6.count_positions(tt.m)
-		testing.expectf(t, got == tt.want, "For `%s` want %v, got %v", tt.m, tt.want, got)
+		got := day6.count_positions(tt.m[1:])
+		testing.expectf(t, got == tt.want, "For `%s` want %v, got %v", tt.m[1:], tt.want, got)
 	}
 }
