@@ -11,20 +11,32 @@ count_positions :: proc(m: string) -> int {
 
 	for l, y in ls {
 		for r, x in l {
-			switch r {
-			case '>':
-				return start_count(ls, x, y, .Right, &coords)
-			case '^':
-				return start_count(ls, x, y, .Up, &coords)
-			case 'v':
-				return start_count(ls, x, y, .Down, &coords)
-			case '<':
-				return start_count(ls, x, y, .Left, &coords)
+			if dir, ok := rune_to_dir(r); ok {
+				return start_count(ls, x, y, dir, &coords)
 			}
 		}
 	}
 
 	return 0
+}
+
+@(private)
+rune_to_dir :: proc(r: rune) -> (d: Dir, ok: bool) {
+	ok = true
+	switch r {
+	case '>':
+		d = .Right
+	case '^':
+		d = .Up
+	case 'v':
+		d = .Down
+	case '<':
+		d = .Left
+	case:
+		ok = false
+	}
+
+	return
 }
 
 @(private)
